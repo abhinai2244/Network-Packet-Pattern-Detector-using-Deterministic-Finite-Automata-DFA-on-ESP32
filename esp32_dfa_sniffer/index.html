@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>BLE Jammer Installer</title>
+  <meta name="description" content="Premium installer for your BLE Jammer." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --text: #f8fafc;
+      --text-muted: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: radial-gradient(circle at top right, #1e293b, var(--bg-color));
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .option-card {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .option-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .option-content {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .option-card:hover .option-content {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .option-card input[type="radio"]:checked+.option-content {
+      border-color: var(--accent);
+      background: rgba(59, 130, 246, 0.1);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    }
+
+    .option-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .option-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      margin-right: 20px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radio-circle::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: scale(0);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .option-card input[type="radio"]:checked+.option-content .radio-circle {
+      border-color: var(--accent);
+    }
+
+    .option-card input[type="radio"]:checked+.option-content .radio-circle::after {
+      transform: scale(1);
+    }
+
+    .button-wrapper {
+      min-height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .invisible {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+    }
+
+    esp-web-install-button {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+  </style>
+  <script type="module" src="https://unpkg.com/esp-web-tools@8.0.1/dist/web/install-button.js?module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <div class="glass-card">
+      <h1>BLE Jammer Flasher</h1>
+      <p class="subtitle">Select your hardware configuration to begin flashing</p>
+
+      <div class="options-grid">
+        <label class="option-card">
+          <input type="radio" name="type" value="Ble1" />
+          <div class="option-content">
+            <div class="radio-circle"></div>
+            <div>
+              <div class="option-title">Single NRF24L01 (VSPI)</div>
+              <div class="option-desc">Uses VSPI pins: SCK=18, MISO=19, MOSI=23, CS=21, CE=22</div>
+            </div>
+          </div>
+        </label>
+
+        <label class="option-card">
+          <input type="radio" name="type" value="Ble3" />
+          <div class="option-content">
+            <div class="radio-circle"></div>
+            <div>
+              <div class="option-title">Single NRF24L01 (HSPI)</div>
+              <div class="option-desc">Uses HSPI pins: SCK=14, MISO=12, MOSI=13, CS=15, CE=16</div>
+            </div>
+          </div>
+        </label>
+
+        <label class="option-card">
+          <input type="radio" name="type" value="Ble2" />
+          <div class="option-content">
+            <div class="radio-circle"></div>
+            <div>
+              <div class="option-title">Dual NRF24L01 (VSPI + HSPI)</div>
+              <div class="option-desc">Maximum coverage using two separate radio modules concurrently</div>
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <div class="button-wrapper">
+        <esp-web-install-button class="invisible"></esp-web-install-button>
+      </div>
+    </div>
+
+    <div class="footer">
+      ✨ Support the project:
+      <a href="https://github.com/smoochiee/Ble-jammer/blob/main/GCash-MyQR-16032024181536.PNG.jpg" target="_blank"
+        rel="noopener">GCash</a> &mdash;
+      <a href="https://paypal.me/smoochieelee?country.x=PH&locale.x=en_US" target="_blank" rel="noopener">PayPal</a> 🛠️
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('input[name="type"]').forEach(radio =>
+      radio.addEventListener("change", () => {
+        const button = document.querySelector('esp-web-install-button');
+        button.manifest = `web/manifest_${radio.value}.json`;
+        button.classList.remove('invisible');
+      }
+      ));
+  </script>
+</body>
+
+</html>
