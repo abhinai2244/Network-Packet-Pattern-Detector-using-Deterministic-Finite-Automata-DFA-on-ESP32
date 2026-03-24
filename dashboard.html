@@ -152,7 +152,11 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <span class="stat-label">Total Packets</span>
+                <span class="stat-label">Heard Frames (Raw)</span>
+                <span id="heardVal" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Total Packets (TCP)</span>
                 <span id="packetVal" class="stat-value">0</span>
             </div>
             <div class="stat-card">
@@ -239,6 +243,11 @@
         }
 
         function updateUI(data) {
+            if (data.h) {
+                const heardVal = document.getElementById('heardVal');
+                heardVal.innerText = data.h;
+                return;
+            }
             if (data.ch) {
                 const channelVal = document.getElementById('channelVal');
                 channelVal.innerText = data.ch;
