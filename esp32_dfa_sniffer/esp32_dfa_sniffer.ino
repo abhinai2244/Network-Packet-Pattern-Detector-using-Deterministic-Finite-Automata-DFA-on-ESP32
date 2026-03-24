@@ -150,9 +150,16 @@ void setup() {
 }
 
 void loop() {
-  // The main loop is basically empty.
-  // Everything happens asynchronously in the wifi_promiscuous_cb function!
-  // This proves the efficiency of the DFA engine processing packets on the fly.
+  static uint8_t channel = 1;
+  static unsigned long lastHop = 0;
+
+  // Hop to the next WiFi channel every 2 seconds
+  if (millis() - lastHop > 2000) {
+    lastHop = millis();
+    channel = (channel % 13) + 1; // 1 to 13
+    esp_wifi_set_channel(channel, WIFI_SECOND_CHAN_NONE);
+    Serial.println("{\"ch\":" + String(channel) + "}");
+  }
 
   delay(10); // Yield to watchdogs
 }

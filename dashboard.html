@@ -160,9 +160,13 @@
                 <span id="synVal" class="stat-value">0</span>
             </div>
             <div class="stat-card">
-                <span class="stat-label">DFA State</span>
-                <span id="stateVal" class="stat-value">q0</span>
+                <span class="stat-label">WiFi Channel</span>
+                <span id="channelVal" class="stat-value">1</span>
             </div>
+        </div>
+        <div class="stat-card" style="margin-bottom: 20px;">
+            <span class="stat-label">DFA State</span>
+            <span id="stateVal" class="stat-value">q0</span>
         </div>
 
         <div class="log-container" id="logBox">
@@ -235,6 +239,11 @@
         }
 
         function updateUI(data) {
+            if (data.ch) {
+                const channelVal = document.getElementById('channelVal');
+                channelVal.innerText = data.ch;
+                return;
+            }
             packetVal.innerText = data.p;
             synVal.innerText = data.s;
             stateVal.innerText = data.st;

