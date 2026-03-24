@@ -1,0 +1,16 @@
+{
+    "name": "ESP32 DFA Sniffer",
+    "version": "1.0.0",
+    "new_install_prompt_erase": false,
+    "builds": [
+        {
+            "chipFamily": "ESP32",
+            "parts": [
+                {
+                    "path": "esp32_dfa_sniffer.ino.bin",
+                    "offset": 0
+                }
+            ]
+        }
+    ]
+}

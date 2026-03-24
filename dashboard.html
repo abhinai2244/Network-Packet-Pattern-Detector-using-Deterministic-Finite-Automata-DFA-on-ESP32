@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DFA Packet Detector Dashboard</title>
+    <!-- ESP Web Tools Script for Flash Button -->
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -138,6 +140,10 @@
     <div class="container">
         <div class="controls">
             <button id="connectBtn">Connect to ESP32 (USB)</button>
+            <!-- New Flash Button -->
+            <esp-web-install-button manifest="manifest.json" style="margin-left: 10px;">
+                <button slot="activate" style="background-color: #ec4899; color: white;">Flash Firmware</button>
+            </esp-web-install-button>
         </div>
 
         <div id="alertBanner" class="alert-banner safe">
