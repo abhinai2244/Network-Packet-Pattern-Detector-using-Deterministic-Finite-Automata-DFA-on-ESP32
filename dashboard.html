@@ -173,7 +173,23 @@
             <span id="stateVal" class="stat-value">q0</span>
         </div>
 
-        <div class="log-container" id="logBox">
+        <!-- Simulation Controls (Demo Mode) -->
+        <div class="stat-card" style="background: rgba(0,0,0,0.4); border: 1px solid #475569;">
+            <h3 style="margin-top:0; font-size: 14px; color: #94a3b8; text-transform: uppercase; margin-bottom: 15px;">
+                Attack Simulation (Demo Tools)</h3>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="writeSerial('SYN\n')"
+                    style="background-color: #f59e0b; padding: 10px 15px; font-size: 14px;">Inject SYN</button>
+                <button onclick="writeSerial('ACK\n')"
+                    style="background-color: #10b981; padding: 10px 15px; font-size: 14px;">Inject ACK/RST</button>
+                <button id="stressBtn" style="background-color: #ef4444; padding: 10px 15px; font-size: 14px;">Launch
+                    SYN Flood</button>
+            </div>
+            <p style="font-size: 11px; color: #64748b; margin-top: 10px;">Note: These buttons send Serial commands to
+                test the DFA logic instantly.</p>
+        </div>
+
+        <div class="log-container" id="logBox" style="margin-top: 20px;">
             [READY] Click connect to start monitoring...
         </div>
     </div>
@@ -181,6 +197,7 @@
     <script>
         let port;
         let reader;
+        let writer;
         const connectBtn = document.getElementById('connectBtn');
         const packetVal = document.getElementById('packetVal');
         const synVal = document.getElementById('synVal');
@@ -210,6 +227,10 @@
                 const textDecoder = new TextDecoderStream();
                 const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
                 reader = textDecoder.readable.getReader();
+
+                const textEncoder = new TextEncoderStream();
+                const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+                writer = textEncoder.writable.getWriter();
 
                 let partialLine = "";
 
@@ -266,7 +287,30 @@
             }
         }
 
+        async function writeSerial(data) {
+            if (writer) {
+                await writer.write(data);
+                logBox.innerHTML += `<br>[SENT] ${data.trim()}`;
+                logBox.scrollTop = logBox.scrollHeight;
+            }
+        }
+
+        async function stressTest() {
+            const stressBtn = document.getElementById('stressBtn');
+            stressBtn.disabled = true;
+            stressBtn.innerText = "Simulating...";
+
+            for (let i = 0; i < 50; i++) {
+                await writeSerial('SYN\n');
+                await new Promise(r => setTimeout(r, 50));
+            }
+
+            stressBtn.disabled = false;
+            stressBtn.innerText = "Launch SYN Flood";
+        }
+
         connectBtn.addEventListener('click', connect);
+        document.getElementById('stressBtn').addEventListener('click', stressTest);
     </script>
 </body>
 
